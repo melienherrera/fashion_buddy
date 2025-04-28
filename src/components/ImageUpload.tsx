@@ -29,12 +29,14 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
   
     try {
-      // 1. Upload the file
       const uploadForm = new FormData();
       uploadForm.append('file', file);
   
-      const uploadRes = await fetch('http://127.0.0.1:7860/api/v1/files/upload/b1f2b79c-1ad2-4197-a304-b6acc19cb81f?stream=false', {
+      const uploadRes = await fetch('/api/v1/files/upload/d733f395-0619-4c6c-8d6f-8a18e550ef32?stream=false', {
         method: 'POST',
+        headers: {
+          "x-api-key": import.meta.env.VITE_LANGFLOW_API_KEY
+        },
         body: uploadForm,
       });
       if (!uploadRes.ok) throw new Error('File upload failed');
