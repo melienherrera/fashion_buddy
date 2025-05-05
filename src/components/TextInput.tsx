@@ -1,6 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { HiOutlinePencil } from 'react-icons/hi';
 import { callFashionBuddyText } from '../api';
+import toast from 'react-hot-toast';
+
+// Loading messages sequence for text input
+const LOADING_MESSAGES = [
+  { message: "📝 Analyzing your fashion preferences...", duration: 3000 },
+  { message: "🎯 Finding the perfect matches...", duration: 3000 },
+  { message: "✨ Preparing your style recommendations...", duration: 3000 }
+];
 
 type Props = {
   setResults: (results: string | null) => void;
@@ -11,18 +19,52 @@ const TextInput: React.FC<Props> = ({ setResults, setLoading }) => {
   const [text, setText] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Function to show loading messages in sequence
+  const showLoadingSequence = () => {
+    LOADING_MESSAGES.forEach(({ message, duration }, index) => {
+      setTimeout(() => {
+        toast(message, {
+          duration: duration,
+          icon: '⏳',
+          style: {
+            background: '#F7F6F3',
+            color: '#4B2E2B',
+            border: '1px solid #F8E1D9',
+          },
+        });
+      }, index * duration);
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    
+    // Start the loading message sequence
+    showLoadingSequence();
+
     try {
       const data = await callFashionBuddyText({ text });
-      console.log('Text API Response: ', data.outputs[0].outputs[0].outputs.message.message);
       const response = data.outputs[0].outputs[0].outputs.message.message;
-      // Adjust this line based on your API's response structure
       setResults(response);
+      toast.success('✨ Your style matches are ready!', {
+        duration: 4000,
+        style: {
+          background: '#F7F6F3',
+          color: '#4B2E2B',
+          border: '1px solid #F8E1D9',
+        },
+      });
     } catch (err) {
       setResults('');
-      alert('Error fetching suggestions');
+      toast.error('Error finding suggestions', {
+        duration: 4000,
+        style: {
+          background: '#F7F6F3',
+          color: '#4B2E2B',
+          border: '1px solid #F8E1D9',
+        },
+      });
     }
     setLoading(false);
   };

@@ -29,16 +29,18 @@ export async function callFashionBuddyText({ text }: { text: string}) {
 }
 
 //  Handles image input
-export async function callFashionBuddyImages(filePath: string) {
+export async function callFashionBuddyImages(filePath: string, gender: 'Men' | 'Women' | 'All' = 'All') {
   console.log('File path: ', filePath);
+  console.log('Selected gender: ', gender);
   const image_payload = {
     output_type: 'chat',
     input_type: 'chat',
+    input_value: gender,
     // session_id: getSessionId(),
     tweaks: {
       "ChatInput-cHdFx": {
         "files": filePath
-      }
+      },
     },
   };
   const apiUrl = import.meta.env.VITE_FASHION_BUDDY_IMAGE_API_URL;

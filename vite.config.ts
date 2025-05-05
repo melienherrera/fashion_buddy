@@ -10,5 +10,10 @@ export default defineConfig({
         rewrite: (path) => path,
       },
     },
+    allowedHosts: [
+      'localhost',
+      '*.ngrok.dev', // This will allow all ngrok.dev subdomains
+      'tryfashionbuddy.ngrok.dev' // This specifically allows your ngrok domain
+    ],
   },
 });
