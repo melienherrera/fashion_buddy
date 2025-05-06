@@ -98,6 +98,7 @@ const ImageUpload: React.FC<Props> = ({ setResults, setLoading }) => {
     // Start the loading message sequence
     showLoadingSequence();
     
+     
     try {
       const uploadForm = new FormData();
       uploadForm.append('file', file);
