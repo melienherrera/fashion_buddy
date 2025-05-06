@@ -1,20 +1,10 @@
-const express = require('express');
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const cors = require('cors');
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
-const app = express();
-app.use(cors());
-app.options('*', cors());
-
-app.use(
-  '/api',
-  createProxyMiddleware({
-    target: 'http://127.0.0.1:7860',
+export default function handler(req, res) {
+  return createProxyMiddleware({
+    target: 'https://langflow-manual-install.onrender.com',
     changeOrigin: true,
+    pathRewrite: { '^/api/proxy': '/api' },
     secure: false,
-  })
-);
-
-app.listen(5001, () => {
-  console.log('Proxy server running on http://localhost:5001');
-});
+  })(req, res);
+}
