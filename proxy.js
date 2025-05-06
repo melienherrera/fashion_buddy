@@ -16,3 +16,8 @@ export default function handler(req, res) {
     secure: false,
   })(req, res);
 }
+
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => {
+  console.log(`Proxy server running on port ${PORT}`);
+});
