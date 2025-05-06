@@ -3,22 +3,27 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const app = express();
 
-// for Vercel deployment
-export default function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+// CORS middleware (must be before proxy)
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Or your Vercel frontend URL for more security
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+    return res.sendStatus(200);
   }
-  return createProxyMiddleware({
+  next();
+});
+
+// Proxy middleware
+app.use(
+  '/api',
+  createProxyMiddleware({
     target: 'https://langflow-manual-install.onrender.com',
     changeOrigin: true,
-    pathRewrite: { '^/api/proxy': '/api' },
+    pathRewrite: { '^/api': '/api' }, // Adjust as needed
     secure: false,
-  })(req, res);
-}
+  })
+);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
