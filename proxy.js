@@ -5,9 +5,9 @@ const app = express();
 
 // CORS middleware (must be before proxy)
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*'); // Or your Vercel frontend URL for more security
+  res.header('Access-Control-Allow-Origin', 'https://fashion-buddy-gules.vercel.app'); // Or your Vercel frontend URL for more security
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization', 'x-api-key');
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200);
   }
