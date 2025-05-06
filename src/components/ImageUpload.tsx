@@ -103,7 +103,7 @@ const ImageUpload: React.FC<Props> = ({ setResults, setLoading }) => {
       const uploadForm = new FormData();
       uploadForm.append('file', file);
   
-      const uploadRes = await fetch('/api/v1/files/upload/d733f395-0619-4c6c-8d6f-8a18e550ef32?stream=false', {
+      const uploadRes = await fetch(import.meta.env.VITE_IMAGE_RUN_API_URL, {
         method: 'POST',
         headers: {
           "x-api-key": import.meta.env.VITE_LANGFLOW_API_KEY
