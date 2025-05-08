@@ -56,6 +56,7 @@ const TextInput: React.FC<Props> = ({ setResults, setLoading }) => {
         },
       });
     } catch (err) {
+      console.error('Error finding suggestions', err);
       setResults('');
       toast.error('Error finding suggestions', {
         duration: 4000,
