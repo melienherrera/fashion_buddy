@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 });
 
 // Proxy middleware
-app.use(
+app.post(
   '/api',
   createProxyMiddleware({
     target: 'https://langflow-manual-install.onrender.com',
